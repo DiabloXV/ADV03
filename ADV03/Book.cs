@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace ADV03
 {
+    public delegate string BookDelegate(Book B);
     public class Book
     {
-        // Properties
+
         public string ISBN { get; set; }
         public string Title { get; set; }
         public string[] Authors { get; set; }
         public DateTime PublicationDate { get; set; }
         public decimal Price { get; set; }
 
-        // Constructor
+        
         public Book(string _ISBN, string _Title, string[] _Authors, DateTime _PublicationDate, decimal _Price)
         {
             ISBN = _ISBN;
@@ -25,23 +26,39 @@ namespace ADV03
             Price = _Price;
         }
 
-
+        public override string ToString()
+        {
+            return $"ISBN: {ISBN}, Title: {Title}, Authors: {string.Join(", ", Authors)}, " +
+                   $"Publication Date: {PublicationDate.ToShortDateString()}, Price: {Price:C}";
+        }
 
         public static string GetTitle(Book B)
         {
             return B.Title;
         }
 
-        // Method to get the Authors of the book
+        
         public static string GetAuthors(Book B)
         {
             return string.Join(", ", B.Authors);
         }
 
-        // Method to get the Price of the book
+        
         public static string GetPrice(Book B)
         {
             return B.Price.ToString("C");
         }
     }
+    public static class LibraryEngine
+    {
+        public static void ProcessBooks(List<Book> bList, Func<Book, string> fPtr)
+        {
+            foreach (Book B in bList)
+            {
+                Console.WriteLine(fPtr(B));
+            }
+        }
+    }
+
+
 }
