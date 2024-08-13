@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ADV03
 {
+    public delegate string BookDelegate(Book B);
     public class Book
     {
-#r
+
         public string ISBN { get; set; }
         public string Title { get; set; }
         public string[] Authors { get; set; }
@@ -48,4 +49,16 @@ namespace ADV03
             return B.Price.ToString("C");
         }
     }
+    public static class LibraryEngine
+    {
+        public static void ProcessBooks(List<Book> bList, Func<Book, string> fPtr)
+        {
+            foreach (Book B in bList)
+            {
+                Console.WriteLine(fPtr(B));
+            }
+        }
+    }
+
+
 }
